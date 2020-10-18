@@ -64,31 +64,34 @@ df.info()
 
 print((name_counter("adina, ofer, hannah, and huey")))
 
-#split abstract by converting into list of lowercase words
-df["abstract"]=df["abstract"].str.lower()
+#converting abstract columns into lists of lowercase words
+
+df["abstract"]= df["abstract"].str.lower()
 print(df["abstract"])
-df["ab_split"]= list(map(str.split[" "], df["abstract"]) 
 
-                    
+#split with a space
+#we need to clean the abstract texts before this 
+df["ab_split"] = list(df["abstract"].str.split(" "))
+print(df["ab_split"])
 
-
+               
 
 
 
 
 # Create a copy of the DataFrame to work from
 # Omit random state to have different random split each run
-df_copy = df.copy()
+#df_copy = df.copy()
 #create training data set
 #at the moment it will not work because I first need to tokanize all the abstracts
-train_set = df_copy.sample(frac=0.75, random_state=0)
-train_set["x_train"] = train_set["abstract"]
-train_set["y_train"] = train_set["a_count"]
+#train_set = df_copy.sample(frac=0.75, random_state=0)
+#train_set["x_train"] = train_set["abstract"]
+#train_set["y_train"] = train_set["a_count"]
 
 #create training data set
-test_set = df_copy.drop(train_set.index)
-test_set["X_test"] = test_set["abstract"]
-test_set["Y_test"]= test_set["a_count"]
+#test_set = df_copy.drop(train_set.index)
+#test_set["X_test"] = test_set["abstract"]
+#test_set["Y_test"]= test_set["a_count"]
 
 
 
