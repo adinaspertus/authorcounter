@@ -55,7 +55,8 @@ for paper in data:
     dict_["authors"].append(paper["authors"]),
     dict_["a_count"].append(name_counter(paper["authors"])),
     dict_["date"].append(paper["update_date"]),
-    dict_["abstract"].append(paper["abstract"])
+    dict_["abstract"].append(paper["abstract"]),
+    
 #column names
 df = pd.DataFrame(dict_, columns=["doi", "title", "authors", "a_count", "date", "abstract"])
 df.head(5)
@@ -63,12 +64,32 @@ df.info()
 
 print((name_counter("adina, ofer, hannah, and huey")))
 
+#split abstract by converting into list of lowercase words
+df["abstract"]=df["abstract"].str.lower()
+print(df["abstract"])
+df["ab_split"]= list(map(str.split[" "], df["abstract"]) 
+
+                    
+
+
+
+
+
+
 # Create a copy of the DataFrame to work from
 # Omit random state to have different random split each run
 df_copy = df.copy()
+#create training data set
+#at the moment it will not work because I first need to tokanize all the abstracts
 train_set = df_copy.sample(frac=0.75, random_state=0)
+train_set["x_train"] = train_set["abstract"]
+train_set["y_train"] = train_set["a_count"]
+
+#create training data set
 test_set = df_copy.drop(train_set.index)
+test_set["X_test"] = test_set["abstract"]
+test_set["Y_test"]= test_set["a_count"]
 
 
-print(train_set)
+
 
