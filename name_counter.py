@@ -11,9 +11,10 @@ Created on Sun Oct 18 13:56:34 2020
 # at top of the final_project file: 
 # import name_counter
 
-import re
 
 def name_counter(n):
+    import re
+
     # while loop to remove 
     while "(" in n:
         par = re.search('\(([^)]+)', n).group(1) # find text in parenthesis

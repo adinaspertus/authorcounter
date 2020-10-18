@@ -11,7 +11,29 @@ Created on Sun Oct 18 10:14:51 2020
 
 import json
 import pandas as pd
+#import name_counter as nc
+import re
 
+# define name counter program (move to new script later?)
+# Comment any edits to the name_counter program
+
+def name_counter(n):
+    #import re
+
+    # while loop to remove 
+    while "(" in n:
+        par = re.search('\(([^)]+)', n).group(1) # find text in parenthesis
+        n = n.replace("("+par+")", "") # remove anything in parentheticals
+   
+    # tag all the splitters with a $
+    n = n.replace(", and", " $") 
+    n = n.replace("and", "$")
+    n = n.replace(",", "$")
+   
+    # split into a list
+    a = n.split("$")
+    return(len(a))
+    
 
 #pre-processing of the data
 f = open("data/arxiv-metadata-oai-snapshot.json")
@@ -26,26 +48,19 @@ with open("data/arxiv-metadata-oai-snapshot.json", "r") as f:
 f.close()
 
 
-dict_ = {"doi": [], "title": [], "authors": [], "date": [], "abstract": []}
+dict_ = {"doi": [], "title": [], "authors": [], "a_count": [], "date": [], "abstract": []}
 for paper in data:
     dict_["doi"].append(paper["doi"]),
-    print(dict_["doi"]),
     dict_["title"].append(paper["title"]),
-    print(dict_["title"])
     dict_["authors"].append(paper["authors"]),
+    dict_["a_count"].append(name_counter(paper["authors"])),
     dict_["date"].append(paper["update_date"]),
     dict_["abstract"].append(paper["abstract"])
 
-df = pd.DataFrame(dict_, columns=["doi", "title", "authors", "date", "abstract"])
+df = pd.DataFrame(dict_, columns=["doi", "title", "authors", "a_count", "date", "abstract"])
 df.head(5)
 df.info()
 
+print((name_counter("adina, ofer, hannah, and huey")))
 
 
-
-
-
-for i in papers:
-    print(papers[i]["authors"])
-
-#print(papers[]["authors"])
