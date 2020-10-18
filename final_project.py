@@ -25,13 +25,13 @@ def name_counter(n):
         par = re.search('\(([^)]+)', n).group(1) # find text in parenthesis
         n = n.replace("("+par+")", "") # remove anything in parentheticals
    
-    # tag all the splitters with a $
-    n = n.replace(", and", " $") 
-    n = n.replace("and", "$")
-    n = n.replace(",", "$")
+    # tag all the splitters with a $$
+    n = n.replace(", and", " $$") 
+    n = n.replace("and", "$$")
+    n = n.replace(",", "$$")
    
     # split into a list
-    a = n.split("$")
+    a = n.split("$$")
     return(len(a))
     
 
