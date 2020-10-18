@@ -26,12 +26,12 @@ def name_counter(n):
         n = n.replace("("+par+")", "") # remove anything in parentheticals
    
     # tag all the splitters with a $
-    n = n.replace(", and", " $") 
-    n = n.replace("and", "$")
-    n = n.replace(",", "$")
+    n = n.replace(", and", " $$") 
+    n = n.replace("and", "$$")
+    n = n.replace(",", "$$")
    
     # split into a list
-    a = n.split("$")
+    a = n.split("$$")
     return(len(a))
     
 
@@ -63,4 +63,5 @@ df.info()
 
 print((name_counter("adina, ofer, hannah, and huey")))
 
+print
 
