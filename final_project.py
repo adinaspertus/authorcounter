@@ -6,11 +6,10 @@ Created on Sun Oct 18 10:14:51 2020
 @author: adina
 """
 
-#https://www.kaggle.com/maksimeren/arxiv-literature-clustering
 
 import json
-import os
-print(os.getcwd())
+#import os
+#print(os.getcwd())
 
 f = open("data/arxiv-metadata-oai-snapshot.json")
 
@@ -22,7 +21,7 @@ for item in f:
         entry = {"doi":item["doi"], 
                  "title":item["title"],
                  "authors":item["authors"],
-                 #"year":item[...],
+                 #"year":item[...], # need to pull this from ___
                  "abstract":item["abstract"],
                  }
         papers.append(entry)
@@ -35,12 +34,10 @@ f.close()
         
 # change no. to call different papers
 
-print(papers[1]["abstract"]) #we'll need to clean out the \n
+papers[1]["abstract"] #we'll need to clean out the \n
 papers[1]["title"]
 papers[1]["authors"]
 #papers[1]["year"]
-
-
 
 #see whole entry
 papers[2]
