@@ -25,7 +25,11 @@ def name_counter(n):
         par = re.search('\(([^)]+)', n).group(1) # find text in parenthesis
         n = n.replace("("+par+")", "") # remove anything in parentheticals
    
+<<<<<<< HEAD
     # tag all the splitters with a $
+=======
+    # tag all the splitters with a $$
+>>>>>>> b7a8fb88723eceaa524118c970eec14a3b42180d
     n = n.replace(", and", " $$") 
     n = n.replace("and", "$$")
     n = n.replace(",", "$$")
@@ -71,4 +75,5 @@ test_set = df_copy.drop(train_set.index)
 
 
 print(train_set)
+
 
