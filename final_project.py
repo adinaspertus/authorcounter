@@ -56,12 +56,19 @@ for paper in data:
     dict_["a_count"].append(name_counter(paper["authors"])),
     dict_["date"].append(paper["update_date"]),
     dict_["abstract"].append(paper["abstract"])
-
+#column names
 df = pd.DataFrame(dict_, columns=["doi", "title", "authors", "a_count", "date", "abstract"])
 df.head(5)
 df.info()
 
 print((name_counter("adina, ofer, hannah, and huey")))
 
-print
+# Create a copy of the DataFrame to work from
+# Omit random state to have different random split each run
+df_copy = df.copy()
+train_set = df_copy.sample(frac=0.75, random_state=0)
+test_set = df_copy.drop(train_set.index)
+
+
+print(train_set)
 
