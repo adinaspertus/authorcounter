@@ -11,7 +11,7 @@ Created on Sun Oct 18 10:14:51 2020
 
 import json
 import pandas as pd
-import name_counter as nc
+#import name_counter as nc
 import re
 
 # define name counter program (move to new script later?)
@@ -61,7 +61,7 @@ df = pd.DataFrame(dict_, columns=["doi", "title", "authors", "a_count", "date", 
 df.head(5)
 df.info()
 
-print((nc("adina, ofer, hannah, and huey")))
+print((name_counter("adina, ofer, hannah, and huey")))
 
 
 
