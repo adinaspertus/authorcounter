@@ -92,9 +92,13 @@ print(df["ab_split"])
 
 # Create a copy of the DataFrame to work from
 # Omit random state to have different random split each run
-#df_copy = df.copy()
+import sklearn
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import CategoricalNB
+df_copy = df.copy()
+
+##first trial = divide samples into train/test
 #create training data set
-#at the moment it will not work because I first need to tokanize all the abstracts
 #train_set = df_copy.sample(frac=0.75, random_state=0)
 #train_set["x_train"] = train_set["abstract"]
 #train_set["y_train"] = train_set["a_count"]
@@ -103,6 +107,26 @@ print(df["ab_split"])
 #test_set = df_copy.drop(train_set.index)
 #test_set["X_test"] = test_set["abstract"]
 #test_set["Y_test"]= test_set["a_count"]
+
+#second trial = leave data only with X and y and then train/test split
+df_copy.info()
+df_copy["X"] = df_copy["ab_split"]
+df_copy["y"] = df_copy["a_count"]
+df_copy.drop("doi", inplace=True, axis=1)
+df_copy.drop("title", inplace=True, axis=1)
+df_copy.drop("date", inplace=True, axis=1)
+df_copy.drop("authors", inplace=True, axis=1)
+df_copy.drop("abstract", inplace=True, axis=1)
+df_copy.drop("ab_split", inplace=True, axis=1)
+df_copy.drop("a_count", inplace=True, axis=1)
+df_copy.info()
+
+X_train, X_test, y_train, y_test = train_test_split(df_copy.X, df_copy.y, test_size=0.25, random_state=0)
+
+#fit a categorical naive bayes classifier
+clf = CategoricalNB()
+y_pred= clf.fit(X_train, y_train).predict(X_test)
+
 
 
 
