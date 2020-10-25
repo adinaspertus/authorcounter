@@ -48,7 +48,7 @@ data  = []
 counter = 0
 with open("data/arxiv-metadata-oai-snapshot.json", "r") as f:
     for line in f: 
-        if counter < 1000:
+        if counter < 20000:
             data.append(json.loads(line))
             counter += 1
 f.close()
@@ -130,7 +130,7 @@ df_copy.drop("a_count", inplace=True, axis=1)
 df_copy.info()
 
 #X is list of abstracts' contents and y is number of authors - put in sci-kit format? 
-X_train, X_test, y_train, y_test = train_test_split(df_copy.X, df_copy.y, test_size=0.25, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(df_copy.X, df_copy.y, test_size=0.30, random_state=0)
 
 #fit a new categorical naive bayes classifier
 #clf = CategoricalNB() #this might not be appropriate
