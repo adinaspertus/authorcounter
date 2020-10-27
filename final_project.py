@@ -9,6 +9,11 @@ Created on Sun Oct 18 10:14:51 2020
 #https://arxiv.org/help/api/user-manual#python_simple_example
 
 
+# to do list: 
+    # create another function that runs with year 
+    # (make accuracy based on a 3 window (one year more or less))
+
+
 import json
 import pandas as pd
 #import name_counter as nc
@@ -34,8 +39,11 @@ def name_counter(n):
     # split into a list
     a = n.split("$$")
     
-    #returning int
-    return(len(a))
+    #returning int #changed 
+    if len(a) == 1:
+        return(len(a))
+    else:
+        return 2
     
     
 #see if name_counter is working (useful testing imported version of it)
@@ -102,6 +110,7 @@ print(df["abstract"][2])
 import sklearn
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import CategoricalNB, MultinomialNB
+#from  sklearn.linear_model import SGDClassifier
 from sklearn.feature_extraction.text import CountVectorizer #this can turn a corpus into a feature matrix
 
 df_copy = df.copy()
@@ -121,6 +130,7 @@ df_copy = df.copy()
 df_copy.info()
 df_copy["X"] = df_copy["abstract"] #X is list of words
 df_copy["y"] = df_copy["a_count"] #y is number of authors
+#df_copy["y"] = df_copy["date"] #y is date
 df_copy.drop("doi", inplace=True, axis=1)
 df_copy.drop("title", inplace=True, axis=1)
 df_copy.drop("date", inplace=True, axis=1)
@@ -134,14 +144,15 @@ X_train, X_test, y_train, y_test = train_test_split(df_copy.X, df_copy.y, test_s
 
 #fit a new categorical naive bayes classifier
 #clf = CategoricalNB() #this might not be appropriate
-clf = MultinomialNB()
+mnf = MultinomialNB()
+#sdg = SGDClassifier()
 vectorizer = CountVectorizer() #initializing a new vectorizer
 
 #turn list of abstracts into a vectorized feature matrix...
 #...each row is 1 abstract
 X_train_vector = vectorizer.fit_transform(X_train)
 #MAYBE come back later to add TFIDF counts here
-fitted_clf = clf.fit(X_train_vector.todense(), y_train)
+fitted_mnf = mnf.fit(X_train_vector.todense(), y_train)
 print("Fitted. Now will predict:")
 
 #vectorize the text to be predicted
@@ -149,13 +160,14 @@ X_test_vector = vectorizer.transform(X_test)
 #MAYBE also TFIDF here
 
 #X_test_vector = X_test_vector.todense()
-prediction = fitted_clf.predict(X_test_vector.todense())
+prediction = fitted_mnf.predict(X_test_vector.todense())
 print("Made prediction. Now testing prediction")
 
 #report accuracy
 correct_answers = 0
 for guess, answer in zip(prediction, y_test):
-    if guess == answer:
+    if (guess <= answer) and (guess >= answer - 1): #3 year window
+    #if guess == answer:
         correct_answers += 1
         
 accuracy = 100*(correct_answers/len(y_test))     
