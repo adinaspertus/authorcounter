@@ -38,7 +38,7 @@ def name_counter(n):
 #test = "adina, and ofer (and a, b, c) and jj (d, e, and f)"
 #print(name_counter(test))
 
-
+#this only runs on panda series
 def text_cleaner(column):
     #convert abstract columns into string of lowercase words
     column = column.str.lower()
@@ -56,3 +56,5 @@ def text_cleaner(column):
     column = column.apply(lambda elem: re.sub(r"\Z[\s]", "", elem))
     
     return column
+
+
