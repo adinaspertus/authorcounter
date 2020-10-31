@@ -54,7 +54,7 @@ data  = []
 counter = 0
 with open("data/arxiv-metadata-oai-snapshot.json", "r") as f:
     for line in f: 
-        if counter < 1000:
+        if counter < 100:
             data.append(json.loads(line))
             counter += 1
 f.close()
@@ -172,4 +172,5 @@ for guess, answer in zip(prediction, y_test):
         
 accuracy = 100*(correct_answers/len(y_test))     
 print("Accurate guesses:", accuracy, "%")
+
 
