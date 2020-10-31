@@ -9,10 +9,8 @@ Created on Sun Oct 18 10:14:51 2020
 #https://arxiv.org/help/api/user-manual#python_simple_example
 
 
-# to do list: 
-    # create another function that runs with year 
-    # (make accuracy based on a 3 window (one year more or less))
-
+#create separate functions for year and author
+#define a function that can be put into tkinter
 
 import json
 import pandas as pd
@@ -155,6 +153,8 @@ X_train_vector = vectorizer.fit_transform(X_train)
 fitted_mnf = mnf.fit(X_train_vector.todense(), y_train)
 print("Fitted. Now will predict:")
 
+
+
 #vectorize the text to be predicted
 X_test_vector = vectorizer.transform(X_test)
 #MAYBE also TFIDF here
@@ -166,8 +166,8 @@ print("Made prediction. Now testing prediction")
 #report accuracy
 correct_answers = 0
 for guess, answer in zip(prediction, y_test):
-    if (guess <= answer) and (guess >= answer - 1): #3 year window
-    #if guess == answer:
+    if (guess <= answer + 1) and (guess >= answer - 1): #3 year window
+    #if guess == answer: #author counter
         correct_answers += 1
         
 accuracy = 100*(correct_answers/len(y_test))     
