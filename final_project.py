@@ -67,33 +67,16 @@ df["abstract"] = text_cleaner(df["abstract"])
 #see what output looks like (delete later)
 print(df["abstract"][2])
 
-# Create a copy of the DataFrame to work from
-# Omit random state to have different random split each run
-
+#################################################################################
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB #CategoricalNB
 #from  sklearn.linear_model import SGDClassifier #keep for now, may test this later
 from sklearn.feature_extraction.text import CountVectorizer #this can turn a corpus into a feature matrix
 
+# copy of the DataFrame to work from
 df_copy = df.copy()
 
-#################################################################################
-# Q for Ofer: Can we delete this section? 
-
-##first trial = divide samples into train/test 
-#create training data set
-#train_set = df_copy.sample(frac=0.75, random_state=0)
-#train_set["x_train"] = train_set["abstract"]
-#train_set["y_train"] = train_set["a_count"]
-
-#create training data set
-#test_set = df_copy.drop(train_set.index)
-#test_set["X_test"] = test_set["abstract"]
-#test_set["Y_test"]= test_set["a_count"]
-
-#################################################################################
-#second trial = leaves only X, y1 (author count), and y2 (year) and then train/test split
-
+#keep only X, y1 (author count), and y2 (year)
 df_copy.info()
 df_copy["X"] = df_copy["abstract"] #X is list of abstracts
 df_copy["y1"] = df_copy["a_count"] #y1 is list of number of authors
@@ -112,10 +95,7 @@ X1_train, X1_test, y1_train, y1_test = train_test_split(df_copy.X, df_copy.y1, t
 #training instance 2 (based on year) --> see below
 X2_train, X2_test, y2_train, y2_test = train_test_split(df_copy.X, df_copy.y2, test_size=0.25, random_state=0)
 
-#X2
-
-#fit a new categorical naive bayes classifier
-#clf = CategoricalNB() #this might not be appropriate
+#fit a new Multinomial naive bayes classifier
 mnf1 = MultinomialNB()
 mnf2 = MultinomialNB()
 #sdg = SGDClassifier()
@@ -187,6 +167,7 @@ def predict_abstract(abstract):
     prediction_author = fitted_mnf1.predict(abstract_vector.todense())[0] #returns first list item
     prediction_year = fitted_mnf2.predict(abstract_vector.todense())[0] #same as above
     return [prediction_author, prediction_year]
+
 
 #test:    
 #predict_abstract("ths is a l..df lije# {{ hi")

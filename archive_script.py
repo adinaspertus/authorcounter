@@ -40,3 +40,44 @@ papers[1]["authors"]
 
 #see whole entry
 papers[2]
+
+#################################################################################
+# Q for Ofer: Can we delete this section? 
+
+##first trial = divide samples into train/test 
+#create training data set
+#train_set = df_copy.sample(frac=0.75, random_state=0)
+#train_set["x_train"] = train_set["abstract"]
+#train_set["y_train"] = train_set["a_count"]
+
+#create training data set
+#test_set = df_copy.drop(train_set.index)
+#test_set["X_test"] = test_set["abstract"]
+#test_set["Y_test"]= test_set["a_count"]
+
+
+
+#attempt turn entry input into text document
+def text():
+    def save():
+        t= entry_text.get()
+        with open((t + '.txt'), 'w') as text: 
+            text.write(t)
+                  
+##function that would go into the app later
+def clickButton():
+    X_test = vectorizer.transform(entry_widget.get())
+    prediction = fitted_mnf.predict(X_test_vector.todense())
+    correct_answers = 0
+    for guess, answer in zip(prediction, y_test):
+        if guess == answer:
+            correct_answer+=1,
+            print("The model predict the paper was written by a single author"),
+        accuracy = 100*(correct_answers/len(y_test)),
+        print("Accurate guesses:", accuracy, "%"),
+    else:
+        print("The model predict the paper was written by more than one author"),
+        accuracy = 100*(correct_answers/len(y_test))
+        print("Accurate guesses:", accuracy, "%")      
+
+
