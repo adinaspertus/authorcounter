@@ -8,7 +8,7 @@ Created on Sat Oct 24 20:42:24 2020
 
 from tkinter import *
 from PIL import ImageTk, Image
-from final_project import predict_abstract
+#from final_project import predict_abstract
 
 ######################################################
 
@@ -38,27 +38,36 @@ entry_label.grid(row=4, column=2)
 
 ######################################################
 
+
+#define function to be used by TKinter
+author_label = Label(root, width=40)
+author_label.grid(row=8, column=2)
+year_label = Label(root, width=40)
+year_label.grid(row=9, column=2)
+
 #entry box
 text = StringVar() # the text in  your entry
 text_entry = Entry(root,  width = 100, bg="wheat2", fg="white", textvariable=text) 
 text_entry.grid(row=5, column=2, ipady=100)
 
-#transform entered text into document
-def abstract():
-    def save():
-        t= text_entry.get()
-        with open((t + '.txt'), 'w') as text: 
-            abstract.write(t)
-
-        
+   
 #create the button to attach to the entry box
-button = Button(root, text="Predict Number of Authors", command=predict_abstract)
+#button = Button(root, text="Predict Number of Authors", command=predict_abstract)
+#button = Button(root, text="Predict Number of Authors", command=lambda: predict_abstract(text_entry.get()))
+button = Button(
+    root,
+    text="Predict Number of Authors",
+    command=lambda: predict_abstract(
+        abstract=text_entry.get()
+    )
+)
 button.grid(row=6, column=2, sticky=W)
 
 #second button 
-button1 = Button(root, text= "Predict year of publication", command=predict_abstract)
+button1 = Button(root, text= "Predict year of publication", command=lambda: predict_abstract(text_entry.get()))
 button1.grid(row=6, column=2)
-root.bind("<Return>", predict_abstract)
+
+
 
 ######################################################
 

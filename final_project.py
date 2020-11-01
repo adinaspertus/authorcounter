@@ -28,8 +28,13 @@ import json
 import pandas as pd
 from functions import name_counter 
 from functions import text_cleaner
-
-    
+from tkinter import *
+from PIL import ImageTk, Image
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB #CategoricalNB
+#from  sklearn.linear_model import SGDClassifier #keep for now, may test this later
+from sklearn.feature_extraction.text import CountVectorizer #this can turn a corpus into a feature matrix
+   
 #see if name_counter is working (or if it is testing true number or 1 vs. multiple)
 print((name_counter("adina, ofer, hannah, and huey")))
 
@@ -68,10 +73,6 @@ df["abstract"] = text_cleaner(df["abstract"])
 print(df["abstract"][2])
 
 #################################################################################
-from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import MultinomialNB #CategoricalNB
-#from  sklearn.linear_model import SGDClassifier #keep for now, may test this later
-from sklearn.feature_extraction.text import CountVectorizer #this can turn a corpus into a feature matrix
 
 # copy of the DataFrame to work from
 df_copy = df.copy()
@@ -158,7 +159,6 @@ print("Accurate guesses:", accuracy, "%")
 
 #################################################################################
 
-#define function to be used by TKinter
 def predict_abstract(abstract):
     abstract = pd.Series(data=[abstract])
     abstract = text_cleaner(abstract)
@@ -166,13 +166,90 @@ def predict_abstract(abstract):
     #print(abstract_vector)
     prediction_author = fitted_mnf1.predict(abstract_vector.todense())[0] #returns first list item
     prediction_year = fitted_mnf2.predict(abstract_vector.todense())[0] #same as above
-    return [prediction_author, prediction_year]
 
+    global author_label, year_label
 
+    author_label.configure(text="The predicted author is {}".format(prediction_author))
+    year_label.configure(text="The predicted author is {}".format(prediction_year))
 #test:    
 #predict_abstract("ths is a l..df lije# {{ hi")
 
-    
+
+#from final_project import predict_abstract
+
+######################################################
+
+#main app window
+root = Tk()
+root.title("Welcome to the AuthorCounter App!")
+root.configure(bg = "light blue")
+#resizing the size of the app window
+root.geometry("1070x900+150+150")
+root.iconbitmap("/Users/mac/Documents/University/Hertie/Courses/Year 2/Python/Final project/authorcounter")
+
+#main label 
+label = Label(root, text="Author Counter", fg="aquamarine4", bg = "light blue")
+label.config(font=("Courier", 44))
+label.grid(row=0, column=2)
+
+#sub label
+sub_label = Label(root, text="Discover how many authors wrote the text you are reading with", fg="aquamarine4", bg = "light blue")
+sub_label.config(font=("Courier", 24))
+sub_label.grid(row=1, column=2)
+
+#entry label
+entry_label = Label(root, text = "Please insert text in the box below",fg="dark slate gray", bg = "light blue")
+entry_label.config(font=("Courier", 18))
+entry_label.grid(row=4, column=2)
+
+
+######################################################
+
+#define function to be used by TKinter
+author_label = Label(root, width=40)
+author_label.grid(row=8, column=2)
+year_label = Label(root, width=40)
+year_label.grid(row=9, column=2)
+
+#entry box
+text = StringVar() # the text in  your entry
+text_entry = Entry(root,  width = 100, bg="wheat2", fg="white", textvariable=text) 
+text_entry.grid(row=5, column=2, ipady=100)
+
+   
+#create the button to attach to the entry box
+#button = Button(root, text="Predict Number of Authors", command=predict_abstract)
+#button = Button(root, text="Predict Number of Authors", command=lambda: predict_abstract(text_entry.get()))
+button = Button(
+    root,
+    text="Predict Number of Authors",
+    command=lambda: predict_abstract(
+        abstract=text_entry.get()
+    )
+)
+button.grid(row=6, column=2, sticky=W)
+
+#second button 
+button1 = Button(root, text= "Predict year of publication", command=lambda: predict_abstract(text_entry.get()))
+button1.grid(row=6, column=2)
+
+
+
+######################################################
+
+#add picture 
+image_sh = Image.open("Shakespeare.jpg")
+image_sh = image_sh.resize((150,200), Image.ANTIALIAS)
+image_sh = ImageTk.PhotoImage(image_sh)
+image_label=(Label(image=image_sh))
+image_label.grid(row=0, column=3)
+
+
+######################################################
+#main loop for the program to run until closed
+root.mainloop()
+
+   
     
     
     
