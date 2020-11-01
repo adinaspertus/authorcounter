@@ -43,7 +43,7 @@ papers[2]
 
 #################################################################################
 # Q for Ofer: Can we delete this section? 
-
+#https://arxiv.org/help/api/user-manual#python_simple_example
 ##first trial = divide samples into train/test 
 #create training data set
 #train_set = df_copy.sample(frac=0.75, random_state=0)

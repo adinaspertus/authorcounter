@@ -8,7 +8,7 @@ Created on Sat Oct 24 20:42:24 2020
 
 from tkinter import *
 from PIL import ImageTk, Image
-#from final_project import predict_abstract
+from final_project import predict_abstract
 
 ######################################################
 
@@ -38,7 +38,6 @@ entry_label.grid(row=4, column=2)
 
 ######################################################
 
-
 #define function to be used by TKinter
 author_label = Label(root, width=40)
 author_label.grid(row=8, column=2)
@@ -56,18 +55,12 @@ text_entry.grid(row=5, column=2, ipady=100)
 #button = Button(root, text="Predict Number of Authors", command=lambda: predict_abstract(text_entry.get()))
 button = Button(
     root,
-    text="Predict Number of Authors",
+    text="Predict",
     command=lambda: predict_abstract(
         abstract=text_entry.get()
     )
 )
 button.grid(row=6, column=2, sticky=W)
-
-#second button 
-button1 = Button(root, text= "Predict year of publication", command=lambda: predict_abstract(text_entry.get()))
-button1.grid(row=6, column=2)
-
-
 
 ######################################################
 
@@ -83,3 +76,10 @@ image_label.grid(row=0, column=3)
 #main loop for the program to run until closed
 root.mainloop()
 
+   
+    
+    
+    
+    
+    
+    
