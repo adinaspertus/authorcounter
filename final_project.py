@@ -38,7 +38,9 @@ print((name_counter("adina, ofer, hannah, and huey")))
 
 #pre-processing of the data
 #import subset of data from file
-data_source_file = open("data/arxiv-metadata-oai-snapshot.json")
+data_source_file = open(
+    "data/arxiv-metadata-oai-snapshot.json"
+    )
 data  = []
 counter = 0
 with open("data/arxiv-metadata-oai-snapshot.json", "r") as data_source_file:
@@ -49,51 +51,69 @@ with open("data/arxiv-metadata-oai-snapshot.json", "r") as data_source_file:
 data_source_file.close()
 
 #create dictionary to convert into panda
-dict_ = {"doi": [], "title": [], "authors": [], "a_count": [], "year": [], "abstract": []}
+data_ = {
+    "doi": [], 
+    "title": [], 
+    "authors": [], 
+    "a_count": [], 
+    "year": [], 
+    "abstract": []}
+
 for paper in data:
-    dict_["doi"].append(paper["doi"]),
-    dict_["title"].append(paper["title"]),
-    dict_["authors"].append(paper["authors"]),
-    dict_["a_count"].append(name_counter(paper["authors"])),
-    dict_["year"].append(int(paper["update_date"][:4])), #only takes first 4 digits, ie year
-    dict_["abstract"].append(paper["abstract"]),
+    data_["doi"].append(paper["doi"]),
+    data_["title"].append(paper["title"]),
+    data_["authors"].append(paper["authors"]),
+    data_["a_count"].append(name_counter(paper["authors"])),
+    data_["year"].append(int(paper["update_date"][:4])), #only takes first 4 digits, ie year
+    data_["abstract"].append(paper["abstract"]),
     
 #set panda column names
-df = pd.DataFrame(dict_, columns=["doi", "title", "authors", "a_count", "year", "abstract"])
-df.head(5)
-df.info()
+data_pd = pd.DataFrame(
+    data_, 
+    columns=["doi", 
+             "title", 
+             "authors", 
+             "a_count", 
+             "year", 
+             "abstract"]
+    )
+
+data_pd.head(5)
+data_pd.info()
 
 #run text cleaning function from functions script
-df["abstract"] = text_cleaner(df["abstract"])
+data_pd["abstract"] = text_cleaner(
+    data_pd["abstract"]
+    )
 #see what output looks like (delete later)
-print(df["abstract"][2])
+print(data_pd["abstract"][2])
 
 #################################################################################
 
 # copy of the DataFrame to work from
-df_copy = df.copy()
+data_pd_copy = data_pd.copy()
 
 #keep only X, y1 (author count), and y2 (year)
-df_copy.info()
-df_copy["X"] = df_copy["abstract"] #X is list of abstracts
-df_copy["y1"] = df_copy["a_count"] #y1 is list of number of authors
-df_copy["y2"] = df_copy["year"] #y2 is year # consider in the future changing to decade
-df_copy.drop("doi", inplace=True, axis=1)
-df_copy.drop("title", inplace=True, axis=1)
-df_copy.drop("year", inplace=True, axis=1)
-df_copy.drop("authors", inplace=True, axis=1)
-df_copy.drop("abstract", inplace=True, axis=1)
-df_copy.drop("a_count", inplace=True, axis=1)
-df_copy.info()
+data_pd_copy.info()
+data_pd_copy["X"] = data_pd_copy["abstract"] #X is list of abstracts
+data_pd_copy["y1"] = data_pd_copy["a_count"] #y1 is list of number of authors
+data_pd_copy["y2"] = data_pd_copy["year"] #y2 is year # consider in the future changing to decade
+data_pd_copy.drop("doi", inplace=True, axis=1)
+data_pd_copy.drop("title", inplace=True, axis=1)
+data_pd_copy.drop("year", inplace=True, axis=1)
+data_pd_copy.drop("authors", inplace=True, axis=1)
+data_pd_copy.drop("abstract", inplace=True, axis=1)
+data_pd_copy.drop("a_count", inplace=True, axis=1)
+data_pd_copy.info()
 
 #training instance 1 (based on author count)
 X1_train, X1_test, y1_train, y1_test = train_test_split(
-    df_copy.X, df_copy.y1, test_size=0.25, random_state=0
+    data_pd_copy.X, data_pd_copy.y1, test_size=0.25, random_state=0
     )
 
 #training instance 2 (based on year) --> see below
 X2_train, X2_test, y2_train, y2_test = train_test_split(
-    df_copy.X, df_copy.y2, test_size=0.25, random_state=0
+    data_pd_copy.X, data_pd_copy.y2, test_size=0.25, random_state=0
     )
 
 #fit a new Multinomial naive bayes classifier
@@ -137,7 +157,8 @@ print("Accurate guesses:", accuracy, "%")
 X2_train_vector = vectorizer.fit_transform(X2_train)
 #MAYBE come back later to add TFIDF counts here
 fitted_mnf2 = mnf2.fit(
-    X2_train_vector.todense(), y2_train
+    X2_train_vector.todense(), 
+    y2_train
     )
 print("Fitted 2. Now will predict 2:")
 
@@ -146,7 +167,9 @@ X2_test_vector = vectorizer.transform(X2_test)
 #MAYBE also TFIDF here
 
 #X_test_vector = X_test_vector.todense()
-prediction2 = fitted_mnf2.predict(X2_test_vector.todense())
+prediction2 = fitted_mnf2.predict(
+    X2_test_vector.todense()
+    )
 print("Made prediction. Now testing prediction")
 
 #report accuracy for year test
@@ -171,8 +194,10 @@ def predict_abstract(abstract):
 
     global author_label, year_label
 
-    author_label.configure(text="The predicted number of authors is {}".format(prediction_author))
-    year_label.configure(text="The predicted year of publication is {}".format(prediction_year))
+    author_label.configure(
+        text="The predicted number of authors is {}".format(prediction_author))
+    year_label.configure(
+        text="The predicted year of publication is {}".format(prediction_year))
 
 
 ######################################################
@@ -183,7 +208,9 @@ window.title("Welcome to the AuthorCounter App!")
 window.configure(bg = "light blue")
 #resizing the size of the app window
 window.geometry("1070x900+150+150")
-window.iconbitmap("/Users/mac/Documents/University/Hertie/Courses/Year 2/Python/Final project/authorcounter")
+window.iconbitmap(
+    "/Users/mac/Documents/University/Hertie/Courses/Year 2/Python/Final project/authorcounter"
+    )
 
 #main label 
 label = Label(
