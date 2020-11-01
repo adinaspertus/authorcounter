@@ -3,8 +3,9 @@ This project creates a classifier using supervised machine learning that predict
 To exhibit the results, we are working on a TKinter App where people could insert an abstract/a short text, and receive as an output the model prediciton.
 
 Midterm report: 
-1. final_project: this file contains in the begining a link from which the data can be downloaded
+1. please download the data set from: https://www.kaggle.com/Cornell-University/arxiv
+2. final_project: this file contains in the begining a link from which the data can be downloaded
 It has all the code we wrote so far, except for the functions;
-2. functions: this file contains functions we defined and are used in the general code
-3. authorcounter_app: this file is irrelevant for the midterm report. Eventually we would like to have here all the code related to tkinter but for the moment we couldn't bring it to work
+3. functions: this file contains functions we defined and are used in the general code
+4. authorcounter_app: this file is irrelevant for the midterm report. Eventually we would like to have here all the code related to tkinter but for the moment we couldn't bring it to work
  
