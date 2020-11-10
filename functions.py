@@ -9,6 +9,8 @@ Created on Sun Oct 18 13:56:34 2020
 
 
 import re
+import json
+import pandas as pd
 
 def name_counter(n):
 
@@ -56,5 +58,6 @@ def text_cleaner(column):
     column = column.apply(lambda elem: re.sub(r"\Z[\s]", "", elem))
     
     return column
+
 
 
