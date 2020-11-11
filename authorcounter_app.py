@@ -81,12 +81,14 @@ text.grid(row=5, column=2, ipady=100)
 #create the button to attach to the entry box
 button = Button(
     window,
+    bg = "light blue",
+    fg="dark slate gray",
     text="Predict",
     command=lambda: predict_abstract(
         abstract=text.get("1.0", END)
     )
 )
-button.grid(row=6, column=2, sticky=W)
+button.grid(row=6, column=2)
 
 #add picture 
 image_sh = Image.open(
@@ -102,7 +104,12 @@ image_label=(Label(
     )
 image_label.grid(row=0, column=3)
 
-
+#add rights
+label_rights = Label(window, 
+                     text="© 2020. All rights reserved to Adina Spertus and Ofer Dotan.",
+                     bg = "light blue",
+                     fg="dark slate gray")
+label_rights.grid(row=14, column=2)
 
 #FUNCTION TO PREDICT ABSTRACT AND YEAR FROM ENTERED TEXT
 def predict_abstract(abstract):
