@@ -4,12 +4,22 @@
 Created on Sat Oct 24 20:42:24 2020
 
 @author: adina and ofer
+
+
+To do - 
+- change file path to be universal (currently Ofer's computer')
+- reformat (e.g. center predict button)
+- update informational output for author count 
+(e.g. multiple vs. single author predicted)
+
 """
 
 from tkinter import *
 from PIL import ImageTk, Image
 from final_project import *
-
+from tkinter import scrolledtext
+import textwrap
+from PIL import ImageTk, Image
 ######################################################
 
 #main app window
@@ -64,25 +74,16 @@ author_label.grid(row=8, column=2)
 year_label = Label(window, width=40)
 year_label.grid(row=9, column=2)
 
-#entry box
-#text = StringVar() 
-text = scrolledtext.ScrolledText(width=110,height=40)
-text_entry = Entry(
-    window,  
-    width = 100, 
-    bg="wheat2", 
-    fg="white", 
-    textvariable=text
-    ) 
-
-text_entry.grid(row=5, column=2, ipady=100)
+#text box (formerly entry)
+text = Text(window, height = 2)
+text.grid(row=5, column=2, ipady=100)
 
 #create the button to attach to the entry box
 button = Button(
     window,
     text="Predict",
     command=lambda: predict_abstract(
-        abstract=text_entry.get()
+        abstract=text.get("1.0", END)
     )
 )
 button.grid(row=6, column=2, sticky=W)
