@@ -8,8 +8,6 @@ Created on Sun Oct 18 10:14:51 2020
 #Please download data from: https://www.kaggle.com/Cornell-University/arxiv
 
 #to do (no particular order): 
-    #1. run the test on a randomized range of years so that it doesn't
-    #just look at 2006-2009! --> kind of done?
     #2. tkInter app
     #3. test on equal number of 1 author vs. multiple author papers
     
@@ -149,9 +147,17 @@ X2_train, X2_test, y2_train, y2_test = train_test_split(
     data_pd_copy.X, data_pd_copy.y2, test_size=0.25, random_state=0
     )
 
+
+#BALANCE TEST SETS TO HAVE EQUAL REPRESENTATION FROM ALL CATEGORIES
+
+# X1_test, y1_test = balance_test_set(X1_test, y1_test)
+# X2_test, y2_test = balance_test_set(X2_test, y2_test)
+
+
+
 #fit a new Multinomial naive bayes classifier
-mnf1 = MultinomialNB()
-mnf2 = MultinomialNB()
+mnf1 = MultinomialNB(fit_prior=False) #telling it whether to generate prior probabilities
+mnf2 = MultinomialNB(fit_prior=False)
 #sdg = SGDClassifier()
 vectorizer = CountVectorizer() #initializing a new vectorizer
 
@@ -194,6 +200,8 @@ fitted_mnf2 = mnf2.fit(
     y2_train
     )
 print("Fitted 2. Now will predict 2:")
+
+
 
 #vectorize the text to be predicted
 X2_test_vector = vectorizer.transform(X2_test)

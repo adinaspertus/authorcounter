@@ -9,6 +9,7 @@ Created on Sun Oct 18 13:56:34 2020
 
 
 import re
+from collections import Counter
 #import json
 #import pandas as pd
 
@@ -38,13 +39,13 @@ def name_counter(names):
     names_list = names.split("$$")
     
     # return actual number of authors
-    return(len(names_list))
+    # return(len(names_list))
     
     #returning either 1 or 2 (for multiple) author count
-    # if len(names_list) == 1:
-    #     return(len(names_list))
-    # else:
-    #     return 2
+    if len(names_list) == 1:
+        return(len(names_list))
+    else:
+        return 2
 
 def year_extractor(date):
     year = re.search('(\d{4})', date)
@@ -73,4 +74,40 @@ def text_cleaner(column):
     return column
 
 
+
+def balance_test_set(X, y):
+    """Reduce a test X and y set so that y categories are EQUALLY represented -- returns a tuple of X and y as lists
+    so every category will only be in the list as often as the least common member
+    Note: Retains elements in order they are listed in the original list, assuming they have already been randomized"""
+    
+    
+    distribution = Counter(y) #create dictionary saying how many of each category is in test set
+    categories = list(distribution.keys()) #list of categories
+    print(categories)
+    
+    #get category with smallest number
+    minimum = distribution[min(distribution)]
+    
+    newX, newY = [], [] #initialize a pair of blank lists
+    
+    new_counts = Counter() #new y category counter for balanced set
+    
+    for x_element, y_element in zip(X, y):
+        if new_counts[y_element] < minimum: #if we haven't yet reached the desired number of elements in this category
+        
+            #add this pair of X and y to the new list
+            newX.append(x_element)
+            newY.append(y_element)
+            
+            #note that we have one more from this category
+            new_counts[y_element] += 1 #note that the new
+    
+    print(Counter(newY)) #make sure we reached the desired number of each category (equally balanced)
+    
+    return newX, newY
+        
+    
+    
+        
+    
 
