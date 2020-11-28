@@ -25,6 +25,7 @@ window.configure(bg = "light blue")
 window.geometry("1070x900+150+150")
 window.iconbitmap(
     "https://github.com/adinaspertus/authorcounter/Shakespeare.jpg")
+
 #main label 
 label = Label(
     window, 

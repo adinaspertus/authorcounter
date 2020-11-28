@@ -29,9 +29,6 @@ from sklearn.feature_extraction.text import CountVectorizer #this can turn a cor
 #import textwrap
 #from PIL import ImageTk, Image   
 
-######################################################
-#see if name_counter is working (or if it is testing true number or 1 vs. multiple)
-print((name_counter("adina, ofer, hannah, and huey")))
 
 ######################################################
 #pre-processing of the data
@@ -45,7 +42,7 @@ with open("data/arxiv-metadata-oai-snapshot.json", "r") as data_source_file:
     total_lines = line_counter(data_source_file)
     
     # randomly generate list of indexes to get from database
-    nr_import = 300
+    nr_import = 1000 # sets the sample size (training set will be 75% of this)
     line_index = random.sample(range(total_lines), k=nr_import)
 
 data_source_file.close()
