@@ -9,33 +9,46 @@ Created on Sun Oct 18 13:56:34 2020
 
 
 import re
-import json
-import pandas as pd
+#import json
+#import pandas as pd
 
-def name_counter(n):
+
+def line_counter(file):
+    total_lines = 0
+    for line in file: 
+        total_lines += 1
+    return total_lines
+
+
+
+
+def name_counter(names):
 
     # while loop to remove 
-    while "(" in n:
-        par = re.search('\(([^)]+)', n).group(1) # find text in parenthesis
-        n = n.replace("("+par+")", "") # remove anything in parentheticals
+    while "(" in names:
+        par = re.search('\(([^)]+)', names).group(1) # find text in parenthesis
+        names = names.replace("("+par+")", "") # remove anything in parentheticals
    
     # tag all the splitters with a $
-    n = n.replace(", and", " $$") 
-    n = n.replace("and", "$$")
-    n = n.replace(",", "$$")
+    names = names.replace(", and", " $$") 
+    names = names.replace("and", "$$")
+    names = names.replace(",", "$$")
    
     # split into a list
-    a = n.split("$$")
+    names_list = names.split("$$")
     
     # return actual number of authors
     #return(len(a))
     
     #returning either 1 or 2 (for multiple) author count
-    if len(a) == 1:
-        return(len(a))
+    if len(names_list) == 1:
+        return(len(names_list))
     else:
         return 2
 
+def year_extractor(date):
+    year = re.search('(\d{4})', date)
+    return int(year[0])
 
 #test = "adina, and ofer (and a, b, c) and jj (d, e, and f)"
 #print(name_counter(test))

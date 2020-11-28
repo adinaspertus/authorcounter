@@ -24,7 +24,10 @@ Created on Sun Oct 18 10:14:51 2020
 import json
 import pandas as pd
 from functions import name_counter 
+from functions import year_extractor
+import random
 from functions import text_cleaner
+from functions import line_counter
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB #CategoricalNB
 #from  sklearn.linear_model import SGDClassifier #keep for now, may test this later
@@ -44,12 +47,33 @@ data_source_file = open(
     "data/arxiv-metadata-oai-snapshot.json"
     )
 data  = []
-counter = 0
 with open("data/arxiv-metadata-oai-snapshot.json", "r") as data_source_file:
-    for line in data_source_file: 
-        if counter < 100:
+    total_lines = line_counter(data_source_file)
+    
+    # randomly generate list of indexes to get from database
+    nr_import = 400
+    line_index = random.sample(range(total_lines), k=nr_import)
+    print(line_index)
+data_source_file.close()
+
+with open("data/arxiv-metadata-oai-snapshot.json", "r") as data_source_file:
+    
+    # not working below 
+    counter = 0       
+    for line in data_source_file:
+        if counter in line_index:
             data.append(json.loads(line))
-            counter += 1
+        counter += 1
+    
+    
+    # while len(line_index):      
+    #     line_nr = 0
+    #     for line in data_source_file:
+    #         if line_nr in line_index: 
+    #             data.append(json.loads(line_index.pop(line_nr)))
+    #         line_nr += 1
+                                   
+
 data_source_file.close()
 
 #create dictionary to convert into panda
@@ -58,6 +82,7 @@ data_ = {
     "title": [], 
     "authors": [], 
     "a_count": [], 
+    "date": [],
     "year": [], 
     "abstract": []}
 
@@ -66,7 +91,8 @@ for paper in data:
     data_["title"].append(paper["title"]),
     data_["authors"].append(paper["authors"]),
     data_["a_count"].append(name_counter(paper["authors"])),
-    data_["year"].append(int(paper["update_date"][:4])), #only takes first 4 digits, ie year
+    data_["date"].append(paper["versions"][0]["created"])
+    data_["year"].append(year_extractor(paper["versions"][0]["created"]))
     data_["abstract"].append(paper["abstract"]),
     
 #set panda column names
@@ -76,6 +102,7 @@ data_pd = pd.DataFrame(
              "title", 
              "authors", 
              "a_count", 
+             "date",
              "year", 
              "abstract"]
     )
