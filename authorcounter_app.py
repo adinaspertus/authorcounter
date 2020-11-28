@@ -125,7 +125,7 @@ def predict_abstract(abstract):
     year_label.configure(
         text="The predicted year of publication is {}".format(prediction_year))
 
-
+#trial to make conditional label
 #initiate variables
 answer = "Enter Answer"
 prediction = ""
