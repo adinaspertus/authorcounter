@@ -7,8 +7,8 @@ Created on Sat Oct 24 20:42:24 2020
 
 
 To do - 
-- change file path to be universal (currently Ofer's computer')
-- reformat (e.g. center predict button)
+- change file path to be universal (currently Ofer's computer') #think I manage to do that
+- reformat (e.g. center predict button)# done
 - update informational output for author count 
 (e.g. multiple vs. single author predicted)
 
@@ -29,9 +29,7 @@ window.configure(bg = "light blue")
 #resizing the size of the app window
 window.geometry("1070x900+150+150")
 window.iconbitmap(
-    "/Users/mac/Documents/University/Hertie/Courses/Year 2/Python/Final project/authorcounter"
-    )
-
+    "https://github.com/adinaspertus/authorcounter/Shakespeare.jpg")
 #main label 
 label = Label(
     window, 
@@ -112,6 +110,7 @@ label_rights = Label(window,
 label_rights.grid(row=14, column=2)
 
 #FUNCTION TO PREDICT ABSTRACT AND YEAR FROM ENTERED TEXT
+    
 def predict_abstract(abstract):
     abstract = pd.Series(data=[abstract])
     abstract = text_cleaner(abstract)
@@ -121,11 +120,25 @@ def predict_abstract(abstract):
     prediction_year = fitted_mnf2.predict(abstract_vector.todense())[0] #same as above
 
     global author_label, year_label
-
     author_label.configure(
         text="The predicted number of authors is {}".format(prediction_author))
     year_label.configure(
         text="The predicted year of publication is {}".format(prediction_year))
+
+
+#initiate variables
+answer = "Enter Answer"
+prediction = ""
+#label function
+def authorLabel():
+    prediction = e.get(prediction_author)
+    while prediction == "":
+        if prediction == 1:
+            answer = "The model predicts a single author wrote this paper"
+        if prediction > 1:
+            answer = "The model predicts multiple authors wrote this paper"
+    print(answer)
+
 
 ######################################################
 #main loop for the program to run until closed
