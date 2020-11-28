@@ -21,15 +21,16 @@ Created on Sun Oct 18 10:14:51 2020
 
 import json
 import pandas as pd
+import random
+from functions import line_counter
 from functions import name_counter 
 from functions import year_extractor
-import random
 from functions import text_cleaner
-from functions import line_counter
+from functions import balance_test_set
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB #CategoricalNB
-#from  sklearn.linear_model import SGDClassifier #keep for now, may test this later
 from sklearn.feature_extraction.text import CountVectorizer #this can turn a corpus into a feature matrix
+
 #from tkinter import *
 #from tkinter import scrolledtext
 #import textwrap
@@ -150,15 +151,15 @@ X2_train, X2_test, y2_train, y2_test = train_test_split(
 
 #BALANCE TEST SETS TO HAVE EQUAL REPRESENTATION FROM ALL CATEGORIES
 
-# X1_test, y1_test = balance_test_set(X1_test, y1_test)
-# X2_test, y2_test = balance_test_set(X2_test, y2_test)
+X1_test, y1_test = balance_test_set(X1_test, y1_test) #balance author number
+#X2_test, y2_test = balance_test_set(X2_test, y2_test) #balance year
 
 
 
 #fit a new Multinomial naive bayes classifier
 mnf1 = MultinomialNB(fit_prior=False) #telling it whether to generate prior probabilities
 mnf2 = MultinomialNB(fit_prior=False)
-#sdg = SGDClassifier()
+
 vectorizer = CountVectorizer() #initializing a new vectorizer
 
 #################################################################################

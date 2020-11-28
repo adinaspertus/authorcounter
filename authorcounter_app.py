@@ -6,12 +6,6 @@ Created on Sat Oct 24 20:42:24 2020
 @author: adina and ofer
 
 
-To do - 
-- change file path to be universal (currently Ofer's computer') #think I manage to do that
-- reformat (e.g. center predict button)# done
-- update informational output for author count 
-(e.g. multiple vs. single author predicted)
-
 """
 
 from tkinter import *
@@ -121,7 +115,7 @@ def predict_abstract(abstract):
 
     global author_label, year_label
     author_label.configure(
-        text="The predicted number of authors is {}".format(prediction_author))
+        text=authorLabel(prediction_author))
     year_label.configure(
         text="The predicted year of publication is {}".format(prediction_year))
 
@@ -130,14 +124,12 @@ def predict_abstract(abstract):
 answer = "Enter Answer"
 prediction = ""
 #label function
-def authorLabel():
-    prediction = e.get(prediction_author)
-    while prediction == "":
-        if prediction == 1:
-            answer = "The model predicts a single author wrote this paper"
-        if prediction > 1:
-            answer = "The model predicts multiple authors wrote this paper"
-    print(answer)
+def authorLabel(prediction):
+    if prediction == 1:
+        answer = "The model predicts a single author wrote this paper"
+    if prediction > 1:
+        answer = "The model predicts multiple authors wrote this paper"
+    return answer
 
 
 ######################################################

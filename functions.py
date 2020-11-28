@@ -102,7 +102,7 @@ def balance_test_set(X, y):
             #note that we have one more from this category
             new_counts[y_element] += 1 #note that the new
     
-    print(Counter(newY)) #make sure we reached the desired number of each category (equally balanced)
+    print("New test set category distribution:", Counter(newY)) #make sure we reached the desired number of each category (equally balanced)
     
     return newX, newY
         
