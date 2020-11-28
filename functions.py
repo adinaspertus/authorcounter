@@ -10,8 +10,7 @@ Created on Sun Oct 18 13:56:34 2020
 
 import re
 from collections import Counter
-#import json
-#import pandas as pd
+
 
 
 def line_counter(file):
@@ -22,9 +21,8 @@ def line_counter(file):
 
 
 
-
 def name_counter(names):
-
+    """define"""
     # while loop to remove 
     while "(" in names:
         par = re.search('\(([^)]+)', names).group(1) # find text in parenthesis
@@ -49,7 +47,8 @@ def name_counter(names):
 
 def year_extractor(date):
     year = re.search('(\d{4})', date)
-    return int(year[0])
+    year = year[0][:3] #remove [:3] to keep whole year, otherwise gets decade
+    return int(year)
 
 #test = "adina, and ofer (and a, b, c) and jj (d, e, and f)"
 #print(name_counter(test))
@@ -75,15 +74,16 @@ def text_cleaner(column):
 
 
 
-def balance_test_set(X, y):
+def balance_test_set(X, y, skip_y = []):
     """Reduce a test X and y set so that y categories are EQUALLY represented -- returns a tuple of X and y as lists
     so every category will only be in the list as often as the least common member
-    Note: Retains elements in order they are listed in the original list, assuming they have already been randomized"""
+    Note: Retains elements in order they are listed in the original list, assuming they have already been randomized
     
+    
+    NOTE: For DECADE, only retain 1990s, 2000s, 2010s, 2020s"""
     
     distribution = Counter(y) #create dictionary saying how many of each category is in test set
     categories = list(distribution.keys()) #list of categories
-    print(categories)
     
     #get category with smallest number
     minimum = distribution[min(distribution)]
@@ -93,21 +93,27 @@ def balance_test_set(X, y):
     new_counts = Counter() #new y category counter for balanced set
     
     for x_element, y_element in zip(X, y):
-        if new_counts[y_element] < minimum: #if we haven't yet reached the desired number of elements in this category
+
+        if new_counts[y_element] < minimum and y_element not in skip_y: #if we haven't yet reached the desired number of elements in this category
         
-            #add this pair of X and y to the new list
+            #add this pair of X and y to the new listß
             newX.append(x_element)
             newY.append(y_element)
             
             #note that we have one more from this category
             new_counts[y_element] += 1 #note that the new
     
-    print("New test set category distribution:", Counter(newY)) #make sure we reached the desired number of each category (equally balanced)
+    #print("New test set category distribution:", Counter(newY)) #make sure we reached the desired number of each category (equally balanced)
     
     return newX, newY
         
     
-    
+def authorLabel(prediction):
+    if prediction == 1:
+        answer = "The model predicts a single author wrote this paper"
+    if prediction > 1:
+        answer = "The model predicts multiple authors wrote this paper"
+    return answer
         
     
 

@@ -14,6 +14,7 @@ from final_project import *
 from tkinter import scrolledtext
 import textwrap
 from PIL import ImageTk, Image
+from functions import authorLabel
 ######################################################
 
 #main app window
@@ -39,7 +40,7 @@ label.grid(row=0, column=2)
 #sub label
 sub_label = Label(
     window, 
-    text="Discover how many authors wrote the text you are reading with", 
+    text="Let machine learning predict who wrote your text, and when...", 
     fg="aquamarine4", 
     bg = "light blue")
 sub_label.config(
@@ -98,7 +99,7 @@ image_label.grid(row=0, column=3)
 
 #add rights
 label_rights = Label(window, 
-                     text="© 2020. All rights reserved to Adina Spertus and Ofer Dotan.",
+                     text="Based on STEM article abstracts from 1990 to present\n© 2020. All rights reserved to Adina Spertus and Ofer Dotan.",
                      bg = "light blue",
                      fg="dark slate gray")
 label_rights.grid(row=14, column=2)
@@ -117,19 +118,14 @@ def predict_abstract(abstract):
     author_label.configure(
         text=authorLabel(prediction_author))
     year_label.configure(
-        text="The predicted year of publication is {}".format(prediction_year))
+        text="The predicted decade of publication is the {}".format(str(prediction_year)+"0s"))
 
 #trial to make conditional label
 #initiate variables
 answer = "Enter Answer"
 prediction = ""
 #label function
-def authorLabel(prediction):
-    if prediction == 1:
-        answer = "The model predicts a single author wrote this paper"
-    if prediction > 1:
-        answer = "The model predicts multiple authors wrote this paper"
-    return answer
+
 
 
 ######################################################
