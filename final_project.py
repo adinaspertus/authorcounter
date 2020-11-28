@@ -9,7 +9,7 @@ Created on Sun Oct 18 10:14:51 2020
 
 #to do (no particular order): 
     #1. run the test on a randomized range of years so that it doesn't
-    #just look at 2006-2009!
+    #just look at 2006-2009! --> kind of done?
     #2. tkInter app
     #3. test on equal number of 1 author vs. multiple author papers
     
@@ -41,11 +41,13 @@ from sklearn.feature_extraction.text import CountVectorizer #this can turn a cor
 #see if name_counter is working (or if it is testing true number or 1 vs. multiple)
 print((name_counter("adina, ofer, hannah, and huey")))
 
+######################################################
 #pre-processing of the data
 #import subset of data from file
 data_source_file = open(
     "data/arxiv-metadata-oai-snapshot.json"
     )
+
 data  = []
 with open("data/arxiv-metadata-oai-snapshot.json", "r") as data_source_file:
     total_lines = line_counter(data_source_file)
@@ -53,25 +55,27 @@ with open("data/arxiv-metadata-oai-snapshot.json", "r") as data_source_file:
     # randomly generate list of indexes to get from database
     nr_import = 400
     line_index = random.sample(range(total_lines), k=nr_import)
-    print(line_index)
+
 data_source_file.close()
 
 with open("data/arxiv-metadata-oai-snapshot.json", "r") as data_source_file:
     
-    # not working below 
-    counter = 0       
-    for line in data_source_file:
-        if counter in line_index:
-            data.append(json.loads(line))
-        counter += 1
+    
+# slower than version below    
+    # counter = 0       
+    # for line in data_source_file:
+    #     if counter in line_index:
+    #         data.append(json.loads(line))
+    #     counter += 1
     
     
-    # while len(line_index):      
-    #     line_nr = 0
-    #     for line in data_source_file:
-    #         if line_nr in line_index: 
-    #             data.append(json.loads(line_index.pop(line_nr)))
-    #         line_nr += 1
+    while len(line_index)>0:      
+        counter = 0
+        for line in data_source_file:
+            if counter in line_index: 
+                data.append(json.loads(line))
+                line_index.remove(counter)
+            counter += 1
                                    
 
 data_source_file.close()

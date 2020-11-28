@@ -38,13 +38,13 @@ def name_counter(names):
     names_list = names.split("$$")
     
     # return actual number of authors
-    #return(len(a))
+    return(len(names_list))
     
     #returning either 1 or 2 (for multiple) author count
-    if len(names_list) == 1:
-        return(len(names_list))
-    else:
-        return 2
+    # if len(names_list) == 1:
+    #     return(len(names_list))
+    # else:
+    #     return 2
 
 def year_extractor(date):
     year = re.search('(\d{4})', date)
