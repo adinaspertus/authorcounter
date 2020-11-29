@@ -52,7 +52,7 @@ label.grid(
     column=2
     )
 
-#sub label
+#introduction label
 sub_label = Label(
     window, 
     text="Let machine learning predict who wrote your text, and when...", 
@@ -67,7 +67,7 @@ sub_label.grid(
     row=1, 
     column=2)
 
-#entry label
+#insert text label
 entry_label = Label(
     window, 
     text = "Please insert text in the box below",
@@ -106,7 +106,7 @@ year_label.grid(
     column=2
     )
 
-#text box (formerly entry)
+#entry text box 
 text = Text(
     window, 
     height = 2
@@ -118,7 +118,7 @@ text.grid(
     ipady=100
     )
 
-#create the button to attach to the entry box
+#button to attach to the entry box
 button = Button(
     window,
     bg = "light blue",
@@ -183,7 +183,7 @@ def predict_abstract(abstract):
 
     global author_label, year_label
     author_label.configure(
-        text=authorLabel(prediction_author))
+        text=authorLabel(prediction_author))#returns different label depending on prediciton
     year_label.configure(
         text="The predicted decade of publication is the {}".format(str(prediction_year)+"0s"))
 
