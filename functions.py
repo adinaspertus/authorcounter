@@ -3,65 +3,64 @@
 """
 Created on Sun Oct 18 13:56:34 2020
 
-@author: adina
+@author: adina & ofer
 """
-# regrex code from: https://stackoverflow.com/questions/38999344/extract-string-within-parentheses-python
-
 
 import re
 from collections import Counter
 
-
-
 def line_counter(file):
+    """Counts the number of lines of an opened, but unimported, dataset"""
     total_lines = 0
     for line in file: 
         total_lines += 1
     return total_lines
 
 
-
 def name_counter(names):
-    """define"""
-    # while loop to remove 
+    """Takes a list of author names and cleans based on various formats in 
+    arXiv in order to identify the total number of authors."""
+    
+    # while loop to remove institution name from parenthesis
     while "(" in names:
         par = re.search('\(([^)]+)', names).group(1) # find text in parenthesis
         names = names.replace("("+par+")", "") # remove anything in parentheticals
    
-    # tag all the splitters with a $
+    # tag all the name splitters with a $$
     names = names.replace(", and", " $$") 
     names = names.replace("and", "$$")
     names = names.replace(",", "$$")
    
-    # split into a list
+    # split into a list based on $$ tag
     names_list = names.split("$$")
     
-    # return actual number of authors
+    # return actual number of authors # could be useful in a future model
     # return(len(names_list))
     
-    #returning either 1 or 2 (for multiple) author count
+    #returning either 1 or 2 (ie multiple) author count
     if len(names_list) == 1:
-        return(len(names_list))
+        return(len(names_list)) # single author
     else:
-        return 2
+        return 2 # multiple authors
+
 
 def year_extractor(date):
+    """Uses regex to identify the authoriship year from the publication date
+    string. Then simplifies to first 3 digits to give the decade."""
     year = re.search('(\d{4})', date)
     year = year[0][:3] #remove [:3] to keep whole year, otherwise gets decade
     return int(year)
 
-#test = "adina, and ofer (and a, b, c) and jj (d, e, and f)"
-#print(name_counter(test))
 
-#this only runs on panda series
+# this only runs on panda series
 def text_cleaner(column):
     """Cleans new text inserted to the prediction model. 
-    Returns a string of lower case words with no latex, special charactes, numbers, and redundent spaces"""
+    Returns a string of lower case words with no latex, special charactes, numbers, and redundant spaces"""
     #convert abstract columns into string of lowercase words
     column = column.str.lower()
     #remove latex (anything within $...$)
     column = column.apply(lambda elem: re.sub(r"\$.+\$", "", elem))
-    #remove special characters (this line modified from: https://towardsdatascience.com/text-cleaning-methods-for-natural-language-processing-f2fc1796e8c7
+    #remove special characters (regex modified from: https://towardsdatascience.com/text-cleaning-methods-for-natural-language-processing-f2fc1796e8c7
     column = column.apply(lambda elem: re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)|^rt|http.+?", " ", elem))  
     #remove numbers
     column = column.apply(lambda elem: re.sub(r"\d+", "", elem))
@@ -77,38 +76,30 @@ def text_cleaner(column):
 
 
 def balance_test_set(X, y, skip_y = []):
-    """Reduce a test X and y set so that y categories are EQUALLY represented -- returns a tuple of X and y as lists
-    so every category will only be in the list as often as the least common member
-    Note: Retains elements in order they are listed in the original list, assuming they have already been randomized
+    """Restricts a test X and y set so that y categories (ie author count, or decade) 
+    are equally represented in order to accurately test predictive accuracy.
+    Returns a tuple of X and y as lists so that each category will only be represented as often as the least common member.
+    Note: Retains elements in order they are listed in the original list, assuming they have already been randomized.
+    Note: For DECADE, only retains 1990s, 2000s, 2010s, 2020s to exclude possibility of one 1989 article limiting test set size."""
     
-    
-    NOTE: For DECADE, only retain 1990s, 2000s, 2010s, 2020s"""
-    
-    distribution = Counter(y) #create dictionary saying how many of each category is in test set
-    categories = list(distribution.keys()) #list of categories
-    
-    #get category with smallest number
-    minimum = distribution[min(distribution)]
-    
-    newX, newY = [], [] #initialize a pair of blank lists
-    
-    new_counts = Counter() #new y category counter for balanced set
+    distribution = Counter(y) # create dictionary saying how many of each category is in test set    
+    minimum = distribution[min(distribution)]  # find category with smallest size
+    newX, newY = [], [] # initialize a pair of blank lists
+    new_counts = Counter() # new y category counter for balanced set
     
     for x_element, y_element in zip(X, y):
-
-        if new_counts[y_element] < minimum and y_element not in skip_y: #if we haven't yet reached the desired number of elements in this category
+        if new_counts[y_element] < minimum and y_element not in skip_y: # if we haven't reached the desired number of elements in this category
         
-            #add this pair of X and y to the new listß
+            # add this pair of X and y to the new list
             newX.append(x_element)
             newY.append(y_element)
             
-            #note that we have one more from this category
+            # note that we have one more from this category
             new_counts[y_element] += 1 #note that the new
-    
-    #print("New test set category distribution:", Counter(newY)) #make sure we reached the desired number of each category (equally balanced)
     
     return newX, newY
         
+    
     
 def authorLabel(prediction):
     """Returns a different label depending on the prediction output. 

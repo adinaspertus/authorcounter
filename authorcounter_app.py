@@ -3,7 +3,7 @@
 """
 Created on Sat Oct 24 20:42:24 2020
 
-@author: adina and ofer
+@author: ofer & adina
 
 """
 
@@ -13,29 +13,24 @@ from final_project import *
 from tkinter import scrolledtext
 import textwrap
 from PIL import ImageTk, Image
-from functions import authorLabel
+from functions import authorLabel 
+
 ######################################################
 
-#main app window
+# main app window
 window = Tk()
-window.title(
-    "Welcome to the AuthorCounter App!"
-    )
+window.title("Welcome to the AuthorCounter App!")
 
-window.configure(
-    bg = "light blue"
-    )
+window.configure(bg = "light blue")
 
-#resizing the size of the app window
-window.geometry(
-    "1070x900+150+150"
-    )
+# resizing the size of the app window
+window.geometry("1070x900+150+150")
 
 window.iconbitmap(
     "https://github.com/adinaspertus/authorcounter/Shakespeare.jpg"
     )
 
-#main label 
+# main label 
 label = Label(
     window, 
     text="Author Counter", 
@@ -52,7 +47,7 @@ label.grid(
     column=2
     )
 
-#introduction label
+# introduction label
 sub_label = Label(
     window, 
     text="Let machine learning predict who wrote your text, and when...", 
@@ -67,7 +62,7 @@ sub_label.grid(
     row=1, 
     column=2)
 
-#insert text label
+# insert text label
 entry_label = Label(
     window, 
     text = "Please insert text in the box below",
@@ -85,7 +80,7 @@ entry_label.grid(
 
 ######################################################
 
-#answer labels
+# answer labels
 author_label = Label(
     window, 
     width=40
@@ -106,7 +101,7 @@ year_label.grid(
     column=2
     )
 
-#entry text box 
+# entry text box 
 text = Text(
     window, 
     height = 2
@@ -118,7 +113,7 @@ text.grid(
     ipady=100
     )
 
-#button to attach to the entry box
+# button to attach to the entry box
 button = Button(
     window,
     bg = "light blue",
@@ -134,10 +129,8 @@ button.grid(
     column=2
     )
 
-#add Shakespeare picture 
-image_sh = Image.open(
-    "Shakespeare.jpg"
-    )
+# add Shakespeare picture 
+image_sh = Image.open("Shakespeare.jpg")
 
 image_sh = image_sh.resize(
     (150,200), 
@@ -157,7 +150,7 @@ image_label.grid(
 #add rights reserved label
 label_rights = Label(
     window, 
-    text="Based on STEM article abstracts from 1990 to present\n© 2020. All rights reserved to Adina Spertus and Ofer Dotan.",
+    text="Based on STEM article abstracts from 1990 to present\n\n© 2020. All rights reserved to Adina Spertus and Ofer Dotan.",
     bg = "light blue",
     fg="dark slate gray"
     )
@@ -177,22 +170,21 @@ def predict_abstract(abstract):
     abstract = pd.Series(data=[abstract])
     abstract = text_cleaner(abstract)
     abstract_vector = vectorizer.transform(abstract) 
-    #print(abstract_vector)
-    prediction_author = fitted_mnf1.predict(abstract_vector.todense())[0] #returns first list item
-    prediction_year = fitted_mnf2.predict(abstract_vector.todense())[0] #same as above
+    prediction_author = fitted_mnf1.predict(abstract_vector.todense())[0] # returns first list item
+    prediction_year = fitted_mnf2.predict(abstract_vector.todense())[0] # same as above
 
     global author_label, year_label
     author_label.configure(
-        text=authorLabel(prediction_author))#returns different label depending on prediciton
+        text=authorLabel(prediction_author)) # returns different label depending on prediciton
     year_label.configure(
         text="The predicted decade of publication is the {}".format(str(prediction_year)+"0s"))
 
-#instantiate variables for prediction label
+# instantiate variables for prediction label
 answer = "Enter Answer"
 prediction = ""
 
 ######################################################
-#main loop for the program to run until closed
+# main loop for the program to run until closed
 window.mainloop()
 
    
