@@ -55,6 +55,8 @@ def year_extractor(date):
 
 #this only runs on panda series
 def text_cleaner(column):
+    """Cleans new text inserted to the prediction model. 
+    Returns a string of lower case words with no latex, special charactes, numbers, and redundent spaces"""
     #convert abstract columns into string of lowercase words
     column = column.str.lower()
     #remove latex (anything within $...$)
@@ -109,6 +111,9 @@ def balance_test_set(X, y, skip_y = []):
         
     
 def authorLabel(prediction):
+    """Returns a different label depending on the prediction output. 
+    Used in the "predict_abstract"" function in authourcounter_app"""
+    
     if prediction == 1:
         answer = "The model predicts a single author wrote this paper"
     if prediction > 1:

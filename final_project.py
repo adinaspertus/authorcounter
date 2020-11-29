@@ -8,7 +8,6 @@ Created on Sun Oct 18 10:14:51 2020
 #Please download data from: https://www.kaggle.com/Cornell-University/arxiv
 
 
-    
 ######################################################
 
 import json
@@ -24,12 +23,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import CountVectorizer #this can turn a corpus into a feature matrix
 
-#from tkinter import *
-#from tkinter import scrolledtext
-#import textwrap
-#from PIL import ImageTk, Image   
-
-
 ######################################################
 #pre-processing of the data
 #import subset of data from file
@@ -38,16 +31,21 @@ data_source_file = open(
     )
 
 data  = []
-with open("data/arxiv-metadata-oai-snapshot.json", "r") as data_source_file:
-    total_lines = line_counter(data_source_file)
+with open(
+        "data/arxiv-metadata-oai-snapshot.json", "r") as data_source_file:
+    total_lines = line_counter(data_source_file
+                               )
     
     # randomly generate list of indexes to get from database
     nr_import = 1000 # sets the sample size (training set will be 75% of this)
-    line_index = random.sample(range(total_lines), k=nr_import)
+    line_index = random.sample(
+        range(total_lines), k=nr_import
+        )
 
 data_source_file.close()
 
-with open("data/arxiv-metadata-oai-snapshot.json", "r") as data_source_file:
+with open(
+        "data/arxiv-metadata-oai-snapshot.json", "r") as data_source_file:
     
     
 # slower than version below    

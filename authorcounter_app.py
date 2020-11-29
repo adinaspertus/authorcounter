@@ -5,7 +5,6 @@ Created on Sat Oct 24 20:42:24 2020
 
 @author: adina and ofer
 
-
 """
 
 from tkinter import *
@@ -19,12 +18,22 @@ from functions import authorLabel
 
 #main app window
 window = Tk()
-window.title("Welcome to the AuthorCounter App!")
-window.configure(bg = "light blue")
+window.title(
+    "Welcome to the AuthorCounter App!"
+    )
+
+window.configure(
+    bg = "light blue"
+    )
+
 #resizing the size of the app window
-window.geometry("1070x900+150+150")
+window.geometry(
+    "1070x900+150+150"
+    )
+
 window.iconbitmap(
-    "https://github.com/adinaspertus/authorcounter/Shakespeare.jpg")
+    "https://github.com/adinaspertus/authorcounter/Shakespeare.jpg"
+    )
 
 #main label 
 label = Label(
@@ -33,10 +42,15 @@ label = Label(
     fg="aquamarine4", 
     bg = "light blue"
     )
+
 label.config(
     font=("Courier", 44)
     )
-label.grid(row=0, column=2)
+
+label.grid(
+    row=0, 
+    column=2
+    )
 
 #sub label
 sub_label = Label(
@@ -44,10 +58,14 @@ sub_label = Label(
     text="Let machine learning predict who wrote your text, and when...", 
     fg="aquamarine4", 
     bg = "light blue")
+
 sub_label.config(
     font=("Courier", 24)
     )
-sub_label.grid(row=1, column=2)
+
+sub_label.grid(
+    row=1, 
+    column=2)
 
 #entry label
 entry_label = Label(
@@ -55,22 +73,50 @@ entry_label = Label(
     text = "Please insert text in the box below",
     fg="dark slate gray", 
     bg = "light blue")
+
 entry_label.config(
     font=("Courier", 18)
     )
-entry_label.grid(row=4, column=2)
+
+entry_label.grid(
+    row=4, 
+    column=2
+    )
 
 ######################################################
 
 #answer labels
-author_label = Label(window, width=40)
-author_label.grid(row=8, column=2)
-year_label = Label(window, width=40)
-year_label.grid(row=9, column=2)
+author_label = Label(
+    window, 
+    width=40
+    )
+
+author_label.grid(
+    row=8, 
+    column=2
+    )
+
+year_label = Label(
+    window, 
+    width=40
+    )
+
+year_label.grid(
+    row=9, 
+    column=2
+    )
 
 #text box (formerly entry)
-text = Text(window, height = 2)
-text.grid(row=5, column=2, ipady=100)
+text = Text(
+    window, 
+    height = 2
+    )
+
+text.grid(
+    row=5, 
+    column=2, 
+    ipady=100
+    )
 
 #create the button to attach to the entry box
 button = Button(
@@ -82,32 +128,52 @@ button = Button(
         abstract=text.get("1.0", END)
     )
 )
-button.grid(row=6, column=2)
 
-#add picture 
+button.grid(
+    row=6, 
+    column=2
+    )
+
+#add Shakespeare picture 
 image_sh = Image.open(
     "Shakespeare.jpg"
     )
+
 image_sh = image_sh.resize(
     (150,200), 
     Image.ANTIALIAS
     )
+
 image_sh = ImageTk.PhotoImage(image_sh)
+
 image_label=(Label(
     image=image_sh)
     )
-image_label.grid(row=0, column=3)
+image_label.grid(
+    row=0, 
+    column=3
+    )
 
-#add rights
-label_rights = Label(window, 
-                     text="Based on STEM article abstracts from 1990 to present\n© 2020. All rights reserved to Adina Spertus and Ofer Dotan.",
-                     bg = "light blue",
-                     fg="dark slate gray")
-label_rights.grid(row=14, column=2)
+#add rights reserved label
+label_rights = Label(
+    window, 
+    text="Based on STEM article abstracts from 1990 to present\n© 2020. All rights reserved to Adina Spertus and Ofer Dotan.",
+    bg = "light blue",
+    fg="dark slate gray"
+    )
+
+label_rights.grid(
+    row=14, 
+    column=2
+    )
 
 #FUNCTION TO PREDICT ABSTRACT AND YEAR FROM ENTERED TEXT
     
 def predict_abstract(abstract):
+    """Takes a text from entry box, cleans it, turns it to vectorized feature matrix 
+    and then fit and predicts if single or multiple authors and publication decade. 
+    output prediction is then attached to labels packed to the TKinter window.
+    """
     abstract = pd.Series(data=[abstract])
     abstract = text_cleaner(abstract)
     abstract_vector = vectorizer.transform(abstract) 
@@ -121,13 +187,9 @@ def predict_abstract(abstract):
     year_label.configure(
         text="The predicted decade of publication is the {}".format(str(prediction_year)+"0s"))
 
-#trial to make conditional label
-#initiate variables
+#instantiate variables for prediction label
 answer = "Enter Answer"
 prediction = ""
-#label function
-
-
 
 ######################################################
 #main loop for the program to run until closed
