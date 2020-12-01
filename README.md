@@ -1,5 +1,5 @@
 # authorcounter
-Adina Spertus & Ofer Dotan
+Adina Spertus & Ofer Dotan /n
 December 2020
 
 In this project we created a classifier using supervised machine learning that predicts the number of authors (single vs. multiple) of an academic article and the decade it was written (1990s-2020s). The two predicition functions for the decade and author count are written using the Sklearn package. To exhibit the results, we developed a TKinter App in which an abstract/a short text can be inserted to receive the model prediciton as an output. 
