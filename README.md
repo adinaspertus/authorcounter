@@ -4,7 +4,7 @@ To exhibit the results, we are working on a TKinter App where people could inser
 
 Midterm report: 
 1. please download the data set from: https://www.kaggle.com/Cornell-University/arxiv
-2. final_project: this file has all the code we wrote so far, except for the functions;
-3. functions: this file contains functions we defined and are used in the general code
-4. authorcounter_app: this file is irrelevant for the midterm report. Eventually we would like to have here all the code related to tkinter but for the moment we couldn't bring it to work
+2. final_project: this file contains the model;
+3. functions: this file contains functions we defined and are used in both final_project and authorcounter_app
+4. authorcounter_app: this file contains the Tkinter app to show how the model works.
  
