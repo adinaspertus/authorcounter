@@ -4,9 +4,9 @@
 Created on Sun Oct 18 10:14:51 2020
 
 @author: Adina Spertus-Melhus & Ofer Dotan
-"""
-#Please download data from: https://www.kaggle.com/Cornell-University/arxiv
 
+Note: Please download dataset from: https://www.kaggle.com/Cornell-University/arxiv
+"""
 
 ######################################################
 
