@@ -50,7 +50,7 @@ label.grid(
 # introduction label
 sub_label = Label(
     window, 
-    text="Let machine learning predict who wrote your text, and when...", 
+    text="Let the classifier predict who wrote your text, and when...", 
     fg="aquamarine4", 
     bg = "light blue")
 
